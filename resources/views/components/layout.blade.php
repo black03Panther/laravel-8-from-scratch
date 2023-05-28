@@ -4,7 +4,8 @@
 <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"defer></script>
+
 <body style="font-family: Open Sans, sans-serif">
     <section class="px-6 py-8">
         <nav class="md:flex md:justify-between md:items-center">
@@ -14,8 +15,20 @@
                 </a>
             </div>
 
-            <div class="mt-8 md:mt-0">
-                <a href="/" class="text-xs font-bold uppercase">Home Page</a>
+            <div class="mt-8 md:mt-0 flex items-center">
+                @if (auth()->check())
+                    <span class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}!</span>
+
+                    <form method="POST" action="/logout" class="text-base font-semibold ml-5 bg-red-200 p-2 rounded-xl">
+                        @csrf
+
+                        <button type="submit">Log Out</button>
+
+                    </form>
+                @else
+                    <a href="/register" class="text-xs font-bold uppercase">Register</a>
+                    <a href="/login" class=" ml-2 text-xs font-bold uppercase">Log In</a>
+                @endif
 
                 <a href="#" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
                     Subscribe for Updates
@@ -53,4 +66,5 @@
             </div>
         </footer>
     </section>
+    <x-flash/>
 </body>
